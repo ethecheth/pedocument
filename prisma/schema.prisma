@@ -13,4 +13,22 @@ model WikiPage {
   slug      String   @unique
   content   String
   updatedAt DateTime @updatedAt
+  versions  WikiVersion[]
+  images    Image[]
+}
+
+model WikiVersion {
+  id        String   @id @default(uuid())
+  pageId    String
+  content   String
+  createdAt DateTime @default(now())
+  page      WikiPage @relation(fields: [pageId], references: [id])
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  filename  String
+  pageId    String?
+  page      WikiPage? @relation(fields: [pageId], references: [id])
 }
